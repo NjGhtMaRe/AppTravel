@@ -19,7 +19,10 @@ const AttractionDetails = ({navigation, route}) => {
   const onBack = () => {
     navigation.goBack();
   };
-  console.log(item);
+
+  const onGallery = () => {
+    navigation.navigate('Gallery');
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -43,7 +46,7 @@ const AttractionDetails = ({navigation, route}) => {
           </View>
           <View style={styles.footerContainer}>
             {slicedImage?.map((image, index) => (
-              <Pressable key={image}>
+              <Pressable onPress={onGallery} key={image}>
                 <Image style={styles.miniImage} source={{uri: image}} />
                 {diffImage > 0 && index === slicedImage?.length - 1 ? (
                   <View style={styles.moreImageContainer}>
@@ -60,6 +63,26 @@ const AttractionDetails = ({navigation, route}) => {
             <Text style={styles.city}>{item?.city}</Text>
           </View>
           <Text style={styles.price}>{item?.entry_price}</Text>
+        </View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Image
+            style={styles.miniIcon}
+            source={require('../../assets/location_circle.png')}
+          />
+          <Text style={{fontSize: 12}}>{item?.address}</Text>
+        </View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Image
+            style={styles.miniIcon}
+            source={require('../../assets/schedule.png')}
+          />
+          <View>
+            <Text style={{fontSize: 12}}>OPEN</Text>
+            <Text
+              style={{
+                fontSize: 12,
+              }}>{`${item?.opening_time} - ${item?.closing_time}`}</Text>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

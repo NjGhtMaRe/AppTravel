@@ -4,7 +4,7 @@ const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
-    margin: 16,
+    margin: 24,
   },
   mainImage: {
     flexDirection: 'column',
@@ -72,6 +72,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 24,
     color: 'black',
+  },
+  city: {
+    fontSize: 16,
+    fontWeight: '500',
+    marginVertical: 10,
+  },
+  price: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  miniIcon: {
+    width: 40,
+    height: 40,
   },
 });
 
