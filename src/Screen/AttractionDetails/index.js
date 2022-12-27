@@ -29,6 +29,7 @@ const AttractionDetails = ({navigation, route}) => {
     navigation.navigate('Map', {
       coordinates: item?.coordinates,
       name: item?.name,
+      city: item?.city,
     });
   };
   console.log(item);
