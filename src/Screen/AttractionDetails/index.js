@@ -8,6 +8,7 @@ import {
   View,
   ScrollView,
 } from 'react-native';
+import MapView, {Marker} from 'react-native-maps';
 import styles from './styles';
 
 const AttractionDetails = ({navigation, route}) => {
@@ -21,7 +22,21 @@ const AttractionDetails = ({navigation, route}) => {
   };
 
   const onGallery = () => {
-    navigation.navigate('Gallery');
+    navigation.navigate('Gallery', {images: item?.images});
+  };
+
+  const onMap = () => {
+    navigation.navigate('Map', {
+      coordinates: item?.coordinates,
+      name: item?.name,
+    });
+  };
+  console.log(item);
+  const coords = {
+    latitude: item?.coordinates?.lat,
+    longitude: item?.coordinates?.lon,
+    latitudeDelta: 0.007,
+    longitudeDelta: 0.007,
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -84,6 +99,14 @@ const AttractionDetails = ({navigation, route}) => {
               }}>{`${item?.opening_time} - ${item?.closing_time}`}</Text>
           </View>
         </View>
+        <View>
+          <MapView style={styles.map} initialRegion={coords}>
+            <Marker key={item.id} coordinate={coords} title={item.name} />
+          </MapView>
+        </View>
+        <Pressable hitSlop={8} onPress={onMap}>
+          <Text style={styles.textMap}>Show full map location</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );

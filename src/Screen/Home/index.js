@@ -31,7 +31,7 @@ const Home = () => {
   }, [selectedCategory]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <FlatList
         data={data}
         numColumns={2}
