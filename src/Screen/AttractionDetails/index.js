@@ -9,6 +9,8 @@ import {
   ScrollView,
 } from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
+import Share from 'react-native-share';
+import ImgToBase64 from 'react-native-image-base64';
 import styles from './styles';
 
 const AttractionDetails = ({navigation, route}) => {
@@ -17,8 +19,37 @@ const AttractionDetails = ({navigation, route}) => {
   const slicedImage = item?.images?.length ? item?.images.slice(0, 5) : [];
   const diffImage = item?.images?.length - slicedImage?.length;
 
+  console.log(item);
+  console.log(mainImage);
+
+  ImgToBase64.getBase64String(mainImage)
+    .then(base64String => console.log(base64String))
+    .catch(err => console.log(err));
+
   const onBack = () => {
     navigation.goBack();
+  };
+
+  const onShare = async () => {
+    try {
+      const imageWithoutParams = mainImage.split('?')[0];
+      const imagePart = imageWithoutParams.split('.');
+      const imageExtension = imagePart[imagePart.length - 1];
+      const base64Image = await ImgToBase64.getBase64String(mainImage);
+
+      Share.open({
+        message: 'This is share',
+        url: `data:image/${imageExtension || 'jpg'};base64,${base64Image}`,
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          err && console.log(err);
+        });
+    } catch (e) {
+      console.log('Sharing error: ', e);
+    }
   };
 
   const onGallery = () => {
@@ -32,7 +63,6 @@ const AttractionDetails = ({navigation, route}) => {
       city: item?.city,
     });
   };
-  console.log(item);
   const coords = {
     latitude: item?.coordinates?.lat,
     longitude: item?.coordinates?.lon,
@@ -53,7 +83,7 @@ const AttractionDetails = ({navigation, route}) => {
                 source={require('../../assets/back.png')}
               />
             </Pressable>
-            <Pressable hitSlop={8}>
+            <Pressable hitSlop={8} onPress={onShare}>
               <Image
                 style={styles.iconShare}
                 source={require('../../assets/share.png')}
